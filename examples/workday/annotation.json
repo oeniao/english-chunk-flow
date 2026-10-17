@@ -1,0 +1,359 @@
+{
+  "title": "Plan a calmer workday",
+  "subtitle": "Original learning sample · English audio · Chinese explanations",
+  "locale": "zh-CN",
+  "source_type": "generated",
+  "sentences": [
+    {
+      "text": "Many people start the day with a long list of tasks.",
+      "translation": "许多人带着一长串任务开始一天。",
+      "parts": [
+        {
+          "role": "s",
+          "en": "Many people",
+          "zh": "许多人"
+        },
+        {
+          "role": "v",
+          "en": "start",
+          "zh": "开始"
+        },
+        {
+          "role": "o",
+          "en": "the day",
+          "zh": "一天"
+        },
+        {
+          "role": "a",
+          "en": "with a long list of tasks.",
+          "zh": "带着一长串任务"
+        }
+      ],
+      "chapter": "Workday planning"
+    },
+    {
+      "text": "Although every task seems important, a clear plan can help us decide what to do first.",
+      "translation": "虽然每项任务似乎都重要，清晰的计划能帮助我们决定先做什么。",
+      "parts": [
+        {
+          "role": "c",
+          "en": "Although every task seems important,",
+          "zh": "虽然每项任务似乎都重要",
+          "children": [
+            {
+              "role": "k",
+              "en": "Although",
+              "zh": "虽然"
+            },
+            {
+              "role": "s",
+              "en": "every task",
+              "zh": "每项任务"
+            },
+            {
+              "role": "v",
+              "en": "seems",
+              "zh": "似乎是"
+            },
+            {
+              "role": "b",
+              "en": "important,",
+              "zh": "重要的"
+            }
+          ],
+          "containerOnly": true
+        },
+        {
+          "role": "s",
+          "en": "a clear plan",
+          "zh": "清晰的计划"
+        },
+        {
+          "role": "v",
+          "en": "can help",
+          "zh": "能够帮助"
+        },
+        {
+          "role": "o",
+          "en": "us",
+          "zh": "我们"
+        },
+        {
+          "role": "e",
+          "en": "decide what to do first.",
+          "zh": "决定先做什么",
+          "children": [
+            {
+              "role": "v",
+              "en": "decide",
+              "zh": "决定"
+            },
+            {
+              "role": "o",
+              "en": "what to do first.",
+              "zh": "先做什么"
+            }
+          ],
+          "containerOnly": true
+        }
+      ],
+      "chapter": "Workday planning"
+    },
+    {
+      "text": "Before the first meeting begins, we can choose one task that needs our full attention.",
+      "translation": "第一次会议开始前，我们可以选出一项需要全神贯注的任务。",
+      "parts": [
+        {
+          "role": "c",
+          "en": "Before the first meeting begins,",
+          "zh": "第一次会议开始前",
+          "children": [
+            {
+              "role": "k",
+              "en": "Before",
+              "zh": "在……之前"
+            },
+            {
+              "role": "s",
+              "en": "the first meeting",
+              "zh": "第一次会议"
+            },
+            {
+              "role": "v",
+              "en": "begins,",
+              "zh": "开始"
+            }
+          ],
+          "containerOnly": true
+        },
+        {
+          "role": "s",
+          "en": "we",
+          "zh": "我们"
+        },
+        {
+          "role": "v",
+          "en": "can choose",
+          "zh": "可以选择"
+        },
+        {
+          "role": "o",
+          "en": "one task",
+          "zh": "一项任务",
+          "children": [
+            {
+              "role": "c",
+              "en": "that needs our full attention.",
+              "zh": "需要我们全神贯注的",
+              "children": [
+                {
+                  "role": "s",
+                  "en": "that",
+                  "zh": "这项任务"
+                },
+                {
+                  "role": "v",
+                  "en": "needs",
+                  "zh": "需要"
+                },
+                {
+                  "role": "o",
+                  "en": "our full attention.",
+                  "zh": "我们的全部注意力"
+                }
+              ],
+              "containerOnly": true
+            }
+          ]
+        }
+      ],
+      "chapter": "Workday planning"
+    },
+    {
+      "text": "If a new request arrives, we do not have to change the whole plan immediately.",
+      "translation": "如果出现新请求，我们不必立刻改变整个计划。",
+      "parts": [
+        {
+          "role": "c",
+          "en": "If a new request arrives,",
+          "zh": "如果出现新请求",
+          "children": [
+            {
+              "role": "k",
+              "en": "If",
+              "zh": "如果"
+            },
+            {
+              "role": "s",
+              "en": "a new request",
+              "zh": "新请求"
+            },
+            {
+              "role": "v",
+              "en": "arrives,",
+              "zh": "出现"
+            }
+          ],
+          "containerOnly": true
+        },
+        {
+          "role": "s",
+          "en": "we",
+          "zh": "我们"
+        },
+        {
+          "role": "v",
+          "en": "do not have to change",
+          "zh": "不必改变"
+        },
+        {
+          "role": "o",
+          "en": "the whole plan",
+          "zh": "整个计划"
+        },
+        {
+          "role": "a",
+          "en": "immediately.",
+          "zh": "立刻"
+        }
+      ],
+      "chapter": "Workday planning"
+    },
+    {
+      "text": "A short break is useful because it gives us time to think.",
+      "translation": "短暂休息很有用，因为它给了我们思考的时间。",
+      "parts": [
+        {
+          "role": "s",
+          "en": "A short break",
+          "zh": "短暂休息"
+        },
+        {
+          "role": "v",
+          "en": "is",
+          "zh": "是"
+        },
+        {
+          "role": "b",
+          "en": "useful",
+          "zh": "有用的"
+        },
+        {
+          "role": "c",
+          "en": "because it gives us time to think.",
+          "zh": "因为它给我们思考的时间",
+          "children": [
+            {
+              "role": "k",
+              "en": "because",
+              "zh": "因为"
+            },
+            {
+              "role": "s",
+              "en": "it",
+              "zh": "休息"
+            },
+            {
+              "role": "v",
+              "en": "gives",
+              "zh": "给予"
+            },
+            {
+              "role": "o",
+              "en": "us",
+              "zh": "我们"
+            },
+            {
+              "role": "o",
+              "en": "time to think.",
+              "zh": "思考的时间"
+            }
+          ],
+          "containerOnly": true
+        }
+      ],
+      "chapter": "Workday planning"
+    },
+    {
+      "text": "The goal is to finish the work that matters most, rather than stay busy all day.",
+      "translation": "目标是完成最重要的工作，而不是整天忙碌。",
+      "parts": [
+        {
+          "role": "s",
+          "en": "The goal",
+          "zh": "目标"
+        },
+        {
+          "role": "v",
+          "en": "is",
+          "zh": "是"
+        },
+        {
+          "role": "b",
+          "en": "to finish the work that matters most, rather than stay busy all day.",
+          "zh": "完成最重要的工作，而不是整天忙碌",
+          "children": [
+            {
+              "role": "v",
+              "en": "to finish",
+              "zh": "完成"
+            },
+            {
+              "role": "o",
+              "en": "the work",
+              "zh": "工作",
+              "children": [
+                {
+                  "role": "c",
+                  "en": "that matters most,",
+                  "zh": "最重要的",
+                  "children": [
+                    {
+                      "role": "s",
+                      "en": "that",
+                      "zh": "这项工作"
+                    },
+                    {
+                      "role": "v",
+                      "en": "matters",
+                      "zh": "重要"
+                    },
+                    {
+                      "role": "a",
+                      "en": "most,",
+                      "zh": "最"
+                    }
+                  ],
+                  "containerOnly": true
+                }
+              ]
+            },
+            {
+              "role": "k",
+              "en": "rather than",
+              "zh": "而不是"
+            },
+            {
+              "role": "v",
+              "en": "stay",
+              "zh": "保持"
+            },
+            {
+              "role": "b",
+              "en": "busy",
+              "zh": "忙碌的"
+            },
+            {
+              "role": "a",
+              "en": "all day.",
+              "zh": "整天"
+            }
+          ],
+          "containerOnly": true
+        }
+      ],
+      "chapter": "Workday planning"
+    }
+  ],
+  "source_url": ""
+}

@@ -1,0 +1,20 @@
+# Local runtimes and generated learning materials
+.venv/
+.skill-runtime/
+__pycache__/
+*.py[cod]
+.DS_Store
+.env
+.env.*
+!.env.example
+output/
+outputs/
+dist/
+state.json
+state.json.tmp
+*.wav
+*.aiff
+*.mp3
+*.m4a
+*.mp4
+*.mov

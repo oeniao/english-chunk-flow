@@ -1,0 +1,4 @@
+interface:
+  display_name: "English Chunk Flow"
+  short_description: "Learn English through chunks and focused listening"
+  default_prompt: "Use $english-chunk-flow to turn my English material into a playable lesson with sentence-level grammar chunks."

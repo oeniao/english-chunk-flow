@@ -1,0 +1,56 @@
+{
+  "title": "A clearer commute",
+  "subtitle": "Original learning sample · English audio · Japanese explanations",
+  "locale": "ja",
+  "source_type": "generated",
+  "sentences": [
+    {
+      "text": "The city council has approved a new transport plan that will help commuters.",
+      "translation": "市議会は、通勤者の助けとなる新しい交通計画を承認しました。",
+      "parts": [
+        {
+          "role": "s",
+          "en": "The city council",
+          "zh": "市議会"
+        },
+        {
+          "role": "v",
+          "en": "has approved",
+          "zh": "承認した"
+        },
+        {
+          "role": "o",
+          "en": "a new transport plan",
+          "zh": "新しい交通計画",
+          "children": [
+            {
+              "role": "c",
+              "en": "that will help commuters.",
+              "zh": "通勤者を助ける",
+              "children": [
+                {
+                  "role": "s",
+                  "en": "that",
+                  "zh": "その計画"
+                },
+                {
+                  "role": "v",
+                  "en": "will help",
+                  "zh": "助けるだろう"
+                },
+                {
+                  "role": "o",
+                  "en": "commuters.",
+                  "zh": "通勤者"
+                }
+              ],
+              "containerOnly": true
+            }
+          ]
+        }
+      ],
+      "chapter": "A transport plan"
+    }
+  ],
+  "source_url": ""
+}
