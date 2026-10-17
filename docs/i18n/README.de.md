@@ -1,4 +1,8 @@
-# English Chunk Flow
+# English Chunk Flow · Agent Skill
+
+**Ein quelloffener Skill zum Englisch-Hörtraining in einem KI-Assistenten, getestet mit Codex Desktop.**
+
+Rufe `$english-chunk-flow` mit englischem Material oder einem Thema auf. Der Assistent erstellt Grammatik-Chunks, Übersetzungen und eine abspielbare Lektion. Der Skill ist der Einstieg; der Player ist die daraus erzeugte Lernoberfläche.
 
 **Höre die Wörter. Verstehe die Struktur.**
 

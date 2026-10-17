@@ -1,4 +1,8 @@
-# English Chunk Flow
+# English Chunk Flow · Agent Skill
+
+**这是一个安装到 AI 助手中使用的开源英语听力 Skill，已在 Codex 桌面端验证。**
+
+安装后调用 `$english-chunk-flow`，提供英文材料或主题，由助手生成语法块、翻译和可播放的听力课程。Skill 是使用入口，播放器是它生成的学习界面。
 
 **听清单词，听懂结构。**
 

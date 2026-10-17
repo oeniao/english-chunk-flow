@@ -1,4 +1,8 @@
-# English Chunk Flow
+# English Chunk Flow · Agent Skill
+
+**AI 도우미에 설치해 사용하는 오픈 소스 영어 듣기 Skill입니다. Codex 데스크톱에서 검증했습니다.**
+
+`$english-chunk-flow`를 호출하고 영어 자료나 주제를 전달하면 도우미가 문법 청크, 번역, 재생 가능한 수업을 만듭니다. Skill이 사용의 시작점이며 플레이어는 생성되는 학습 화면입니다.
 
 **단어를 듣고, 문장의 구조를 이해하세요.**
 

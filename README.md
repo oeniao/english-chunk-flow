@@ -1,8 +1,12 @@
-# English Chunk Flow
+# English Chunk Flow · Agent Skill
 
-**Hear the words. Follow the structure.**
+**An open-source Codex skill for learning English through chunks.**
 
-An open-source agent skill that turns English material into sentence-level grammar chunks, contextual translations and a player for focused listening.
+*Hear the words. Follow the structure.*
+
+Install the skill in your AI assistant and invoke **`$english-chunk-flow`** with your English material or a topic. The assistant uses the skill to prepare sentence-level grammar chunks, contextual translations and a playable listening lesson. Tested with Codex desktop.
+
+**The skill is the entry point; the bundled player is the learning interface it generates.**
 
 [![Core tests](https://img.shields.io/badge/core_tests-15_passed_locally-green.svg)](docs/TESTING.md) [![MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
@@ -14,7 +18,7 @@ English · [简体中文](docs/i18n/README.zh-CN.md) · [日本語](docs/i18n/RE
 
 Knowing the words is not always enough to understand spoken English. This project helps learners catch **who/what + action/state + object/complement**, then connect clauses and modifiers without losing the flow of audio.
 
-It is an early alpha, built around a local player and an agent skill. The host assistant performs linguistic analysis and translation; the Python tools validate and package that work. This is **not** a standalone automatic parser, a new trained language model or a complete desktop learning manager. Learning benefits remain a hypothesis to test with learners; no efficacy claim is made.
+This skill is an early alpha with bundled local processing tools and a lesson player. The host assistant performs linguistic analysis and translation; the Python tools validate and package that work. This is **not** a standalone automatic parser, a new trained language model or a complete desktop learning manager. Learning benefits remain a hypothesis to test with learners; no efficacy claim is made.
 
 ## What you can do
 
@@ -43,7 +47,7 @@ It is an early alpha, built around a local player and an agent skill. The host a
 
 No additional text-model API key is needed when the host assistant generates the annotations. Your host model/account may still incur its normal costs. Local file processing does not mean the assistant itself runs offline. The project bundles no premium speech API, voice model download or verified US/UK/Australian accent selector.
 
-## Install
+## Install the skill
 
 ```sh
 git clone https://github.com/oeniao/english-chunk-flow.git
@@ -62,7 +66,7 @@ python3 ~/.agents/skills/english-chunk-flow/scripts/run.py doctor
 
 Open a new host conversation or refresh skill discovery, then invoke **`$english-chunk-flow`**. The ZIP in GitHub Releases is a portable skill folder, not a macOS application or a one-click ChatGPT mobile extension. Its runtime is not bundled.
 
-## Try it
+## Use the skill
 
 > Use $english-chunk-flow to turn my English article into a listening lesson. Keep the original English and explain each grammar chunk in Japanese.
 

@@ -1,4 +1,8 @@
-# English Chunk Flow
+# English Chunk Flow · Agent Skill
+
+**Uma skill de código aberto para praticar inglês no seu assistente de IA, testada no Codex para desktop.**
+
+Invoque `$english-chunk-flow` com um texto em inglês ou um tema. O assistente prepara blocos gramaticais, traduções e uma lição reproduzível. A skill é o ponto de entrada; o player é a interface de aprendizagem gerada.
 
 **Ouça as palavras. Entenda a estrutura.**
 
