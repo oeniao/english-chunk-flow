@@ -34,14 +34,6 @@ It is an early alpha, built around a local player and an agent skill. The host a
 | Article link | Host browser retrieves readable text; CLI does not fetch URLs |
 | YouTube link / audio alone / scanned PDF | No bundled extraction, transcription or OCR backend |
 
-## Screenshots
-
-The screenshots use original project-authored samples and the real player, with local synthesized speech. They do not use a third-party video transcript.
-
-| Japanese explanations | Saved chunks |
-| --- | --- |
-| ![Japanese structure hints](docs/images/japanese.png) | ![Saved learning chunks](docs/images/review.png) |
-
 ## Requirements
 
 - A host assistant that can load `SKILL.md` and execute local tools; tested in the Codex desktop environment.
