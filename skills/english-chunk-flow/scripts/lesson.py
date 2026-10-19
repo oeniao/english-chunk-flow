@@ -116,22 +116,33 @@ def decode(src,dest):
    shutil.copyfile(src,dest);return dur
  except (Error,OSError):pass
  if shutil.which('afconvert'):run(['afconvert','-f','WAVE','-d','LEI16@16000','-c','1',src,dest])
- elif shutil.which('ffmpeg'):run(['ffmpeg','-y','-i',src,'-ac','1','-ar','16000','-c:a','pcm_s16le',dest])
+ elif shutil.which('ffmpeg'):run(['ffmpeg','-v','error','-nostdin','-y','-i',src,'-ac','1','-ar','16000','-c:a','pcm_s16le',dest])
  else:raise Error('Need 16kHz mono PCM16 WAV, or afconvert/ffmpeg installed for local decoding.')
  return wav_info(dest)[1]
-def align(path,text,check_match=False,allow_mismatch=False):
+def load_pronunciations(path):
+ if not path:return None
+ data=json.loads(Path(path).read_text(encoding='utf-8'))
+ if not isinstance(data,dict) or not data:raise Error('Pronunciations must be a nonempty JSON object: word -> checked ARPABET phones')
+ for word,phones in data.items():
+  if spoken(word)!=[word] or not isinstance(phones,str) or not re.fullmatch(r'[A-Z]+(?: [A-Z]+)*',phones):raise Error('Invalid pronunciation entry; use a lowercase word and space-separated model phones (without stress digits)')
+ return data
+
+def align(path,text,check_match=False,allow_mismatch=False,pronunciations=None):
  try:from pocketsphinx import Decoder
  except ImportError:raise Error('Local acoustic aligner missing. Install scripts/requirements.txt in your venv, provide real --word-times, or use --text-only.')
  with wave.open(str(path),'rb') as w:raw=w.readframes(w.getnframes());dur=w.getnframes()/w.getframerate()
  words=spoken(text)
  if any(re.search(r'\d',w) for w in words):raise Error('Digit normalization requires verified word times; write generated content with spoken number words, or provide --word-times for the original transcript.')
  d=Decoder(lm=None,samprate=16000,loglevel='ERROR')
+ for word,phones in (pronunciations or {}).items():d.add_word(word,phones)
  missing=sorted(set(w for w in words if not d.lookup_word(w)))
- if missing:raise Error('Pronunciation dictionary lacks: '+', '.join(missing)+'. Use a supported aligner or verified word timings; no proportional fallback.')
+ if missing:raise Error('Pronunciation dictionary lacks: '+', '.join(missing)+'. Supply --pronunciations with checked ARPABET entries, or verified --word-times. No proportional fallback.')
  warnings=[];recognition=None;ratio=None
  if check_match:
   import difflib
-  r=Decoder(samprate=16000,loglevel='ERROR');r.start_utt();r.process_raw(raw,False,True);r.end_utt();recognition=r.hyp().hypstr if r.hyp() else ''
+  r=Decoder(samprate=16000,loglevel='ERROR')
+  for word,phones in (pronunciations or {}).items():r.add_word(word,phones)
+  r.start_utt();r.process_raw(raw,False,True);r.end_utt();recognition=r.hyp().hypstr if r.hyp() else ''
   ratio=difflib.SequenceMatcher(None,words,spoken(recognition),autojunk=False).ratio()
   if ratio<.35 and not allow_mismatch:raise Error(f'Possible wrong transcript/audio version (local recognition agreement {ratio:.2f}). Verify the recording and transcript; do not force an incorrect alignment.')
   warnings.append(f'Original transcript needs human verification; weak local ASR agreement={ratio:.2f}, not an accuracy certificate.')
@@ -168,37 +179,78 @@ def speech_backend(requested='auto'):
  if requested not in ('say','espeak-ng'):raise Error('Unknown speech backend: '+requested)
  return requested
 
-def make_audio(a,out,voice,rate,audio_path,word_times,allow_mismatch,tts='auto'):
+def make_audio(a,out,voice,rate,audio_path,word_times,allow_mismatch,tts='auto',alignment_failure='sentence',cache_dir=None,pronunciations=None):
  text=' '.join(s['text'] for s in a['sentences']);audio=out/'audio.wav'
  if audio_path:
   dur=decode(audio_path,audio)
-  times=json.loads(Path(word_times).read_text()) if word_times else align(audio,text,True,allow_mismatch)
+  times=json.loads(Path(word_times).read_text()) if word_times else align(audio,text,True,allow_mismatch,pronunciations)
   validate_times(times,text,dur)
   return times,{'kind':'original','voice':'Original recording','source_filename':Path(audio_path).name,'duration':dur}
  backend=speech_backend(tts)
  voice=voice or ('Samantha' if backend=='say' else 'en-us')
  if word_times:raise Error('--word-times is only for original supplied audio')
- allwords=[];offset=0
+ allwords=[];offset=0;sentences=[];warnings=[];failures=[]
+ cache=Path(cache_dir) if cache_dir else None
+ if cache:cache.mkdir(parents=True,exist_ok=True)
  with tempfile.TemporaryDirectory(prefix='chunk-speech-') as temp:
   temp=Path(temp)
   with wave.open(str(audio),'wb') as output:
    output.setnchannels(1);output.setsampwidth(2);output.setframerate(16000)
    for i,s in enumerate(a['sentences']):
     f=temp/'sentence.txt';f.write_text(s['text'],encoding='utf-8');aiff=temp/'sentence.aiff';wav=temp/'sentence.wav'
-    if backend=='say':
-     run(['say','-v',voice,'-r',rate,'-f',f,'-o',aiff]);run(['afconvert','-f','WAVE','-d','LEI16@16000','-c','1',aiff,wav])
-    else:
-     raw=temp/'espeak.wav'
-     run(['espeak-ng','-v',voice,'-s',rate,'-f',f,'-w',raw])
-     run(['ffmpeg','-nostdin','-y','-i',raw,'-ac','1','-ar','16000','-c:a','pcm_s16le',wav])
-    dur=wav_info(wav)[1];t=align(wav,s['text']);validate_times(t,s['text'],dur)
+    key=hashlib.sha256(json.dumps([s['text'],backend,voice,rate,'pcm16-16000-v1']).encode()).hexdigest()
+    cached=cache/(key+'.wav') if cache else None
+    try:
+     if cached and cached.exists():
+      try:wav_info(cached);shutil.copyfile(cached,wav)
+      except (Error,OSError):cached.unlink();raise Error('Invalid cached audio; rerun to synthesize it again.')
+     elif backend=='say':
+      run(['say','-v',voice,'-r',rate,'-f',f,'-o',aiff]);run(['afconvert','-f','WAVE','-d','LEI16@16000','-c','1',aiff,wav])
+     else:
+      raw=temp/'espeak.wav'
+      run(['espeak-ng','-v',voice,'-s',rate,'-f',f,'-w',raw])
+      run(['ffmpeg','-v','error','-nostdin','-y','-i',raw,'-ac','1','-ar','16000','-c:a','pcm_s16le',wav])
+     dur=wav_info(wav)[1]
+     if cached and not cached.exists():
+      pending=cached.with_suffix('.tmp');shutil.copyfile(wav,pending);os.replace(pending,cached)
+    except (Error,OSError,subprocess.CalledProcessError) as e:
+     failures.append({'sentence':i+1,'stage':'synthesis','error':str(e)})
+     continue
+    try:
+     t=align(wav,s['text'],pronunciations=pronunciations) if pronunciations else align(wav,s['text'])
+     validate_times(t,s['text'],dur)
+     quality='word'
+    except (Error,RuntimeError,ValueError) as e:
+     issue={'sentence':i+1,'stage':'alignment','error':str(e)}
+     if alignment_failure=='strict':failures.append(issue);continue
+     quality='sentence';t={'words':[]}
+     warnings.append(f"Sentence {i+1}: word alignment unavailable ({e}). Using exact synthesized-file sentence bounds; chunk replay disabled.")
+    sentences.append({'start':round(offset,4),'end':round(offset+dur,4),'quality':quality,'words':t['words']})
     allwords.extend(dict(w,start=round(w['start']+offset,4),end=round(w['end']+offset,4)) for w in t['words'])
     with wave.open(str(wav),'rb') as part:output.writeframes(part.readframes(part.getnframes()))
     offset+=dur
-    print(f'Synthesized and acoustically aligned sentence {i+1}/{len(a["sentences"])}',flush=True)
- return {'words':allwords,'duration':offset,'provenance':'pocketsphinx-5.1.1-acoustic-alignment','warnings':['Local acoustic estimates; verify replay edges. This is system synthesized speech, not authenticated regional accent.']},{'kind':'synthesized','backend':backend,'voice':voice,'rate':rate,'duration':offset}
+    print(f'Synthesized sentence {i+1}/{len(a["sentences"])} · {quality} timing',flush=True)
+ if failures:
+  report={'status':'incomplete','failures':failures,'cache':str(cache) if cache else None}
+  if cache:save(cache/'failures.json',report)
+  raise Error('Some sentences failed; completed audio is retained in the cache. '+json.dumps(report,ensure_ascii=False))
+ if cache and (cache/'failures.json').exists():(cache/'failures.json').unlink()
+ mixed=any(x['quality']=='sentence' for x in sentences)
+ return {'words':allwords,'sentences':sentences,'duration':offset,'provenance':'mixed-word-and-synthesized-sentence-bounds' if mixed else 'pocketsphinx-5.1.1-acoustic-alignment','warnings':warnings+['Local acoustic estimates; verify replay edges. This is system synthesized speech, not authenticated regional accent.']},{'kind':'synthesized','backend':backend,'voice':voice,'rate':rate,'duration':offset}
 
 def attach(a,t):
+ if t.get('sentences'):
+  if len(t['sentences'])!=len(a['sentences']):raise Error('Sentence timing count differs from annotation')
+  for s,segment in zip(a['sentences'],t['sentences']):
+   s.update(start=segment['start'],end=segment['end'],duration=segment['end']-segment['start'],timing_quality=segment['quality'])
+   if segment['quality']=='word':
+    attach({'sentences':[s]},{'words':segment['words'],'duration':s['duration']})
+    for l in s['leaves']:l['start']+=segment['start'];l['end']+=segment['start']
+    s.update(start=segment['start'],end=segment['end'],duration=segment['end']-segment['start'])
+   else:
+    # Bounds belong to the whole sentence, never claimed to be word/chunk timings.
+    for l in s['leaves']:l.update(start=segment['start'],end=segment['end'],timing_quality='sentence')
+  return
  ws=t['words'];cursor=0
  for s in a['sentences']:
   sentence_start=cursor
@@ -225,7 +277,7 @@ def build(args):
    for s in a['sentences']:s.update(start=0,end=0,duration=0)
    warnings=['Text-only lesson: no audio or word timing; replay is disabled.']
   else:
-   times,media=make_audio(a,stage,args.voice,args.rate,args.audio,args.word_times,args.allow_mismatch,args.tts);attach(a,times);warnings=times.get('warnings',[])
+   times,media=make_audio(a,stage,args.voice,args.rate,args.audio,args.word_times,args.allow_mismatch,args.tts,args.alignment_failure,args.cache_dir or out.parent/('.'+out.name+'-audio-cache'),load_pronunciations(args.pronunciations));attach(a,times);warnings=times.get('warnings',[])
   media_fingerprint=hashlib.sha256((stage/'audio.wav').read_bytes()).hexdigest() if times else ''
   identity=hashlib.sha256((json.dumps(a,sort_keys=True,ensure_ascii=False)+media_fingerprint+norm(source)+a.get('locale','zh-CN')+json.dumps(media,sort_keys=True)).encode()).hexdigest()[:20]
   manifest={'schema_version':1,'id':identity,'title':a.get('title','Listening practice'),'subtitle':a.get('subtitle',''),'locale':a.get('locale','zh-CN'),'source_type':a.get('source_type','audio_transcript' if args.audio else 'text'),'source_url':a.get('source_url',''),'media':media,'alignment':times['provenance'] if times else 'none','warnings':warnings,'stats':stats,'annotation_method':'host-assistant-linguistic-analysis','created_at':time.strftime('%Y-%m-%dT%H:%M:%S%z')}
@@ -236,7 +288,7 @@ def build(args):
   j=lambda obj:json.dumps(obj,ensure_ascii=False).replace('<','\\u003c').replace('>','\\u003e').replace('&','\\u0026').replace('\u2028','\\u2028').replace('\u2029','\\u2029')
   content='const MATERIAL='+j(manifest)+';\nconst NEWS='+j(a['sentences'])+';'
   (stage/'content.js').write_text(content)
-  template=(stage/'index.html').read_text().replace('style.css?v=core2','style.css').replace('app.js?v=core2','app.js')
+  template=(stage/'index.html').read_text().replace('style.css?v=wide3','style.css').replace('app.js?v=wide3','app.js').replace('style.css?v=core2','style.css').replace('app.js?v=core2','app.js')
   if not times:template=template.replace('src="audio.wav"','')
   (stage/'index.html').write_text(template)
   portable=template.replace('<link rel="stylesheet" href="style.css">','<style>'+(stage/'style.css').read_text()+'</style>').replace('<script src="content.js"></script>','<script>'+content+'</script>').replace('<script src="app.js"></script>','<script>'+(stage/'app.js').read_text()+'</script>')
@@ -310,7 +362,7 @@ def main():
  for command in ('validate','build'):
   b=sub.add_parser(command);b.add_argument('--source',required=True);b.add_argument('--annotation',required=True)
   if command=='build':
-   b.add_argument('--out',required=True);b.add_argument('--tts',choices=['auto','say','espeak-ng'],default='auto');b.add_argument('--voice',help='Backend voice: Samantha for say, en-us for espeak-ng by default');b.add_argument('--rate',type=int,default=130);b.add_argument('--audio');b.add_argument('--word-times');b.add_argument('--text-only',action='store_true');b.add_argument('--replace',action='store_true');b.add_argument('--allow-mismatch',action='store_true')
+   b.add_argument('--alignment-failure',choices=['sentence','strict'],default='sentence',help='Synthesized audio only: retain whole-sentence playback if word alignment fails; strict refuses any failure');b.add_argument('--cache-dir',help='Private synthesized PCM cache, reused on retry');b.add_argument('--pronunciations',help='JSON mapping of checked lowercase words to model ARPABET phones');b.add_argument('--out',required=True);b.add_argument('--tts',choices=['auto','say','espeak-ng'],default='auto');b.add_argument('--voice',help='Backend voice: Samantha for say, en-us for espeak-ng by default');b.add_argument('--rate',type=int,default=130);b.add_argument('--audio');b.add_argument('--word-times');b.add_argument('--text-only',action='store_true');b.add_argument('--replace',action='store_true');b.add_argument('--allow-mismatch',action='store_true')
  s=sub.add_parser('serve');s.add_argument('--root',required=True);s.add_argument('--port',type=int,default=8770)
  a=p.parse_args()
  try:
@@ -322,7 +374,7 @@ def main():
    if not 80<=a.rate<=240:raise Error('Speech rate must be between 80 and 240')
    build(a)
   elif a.command=='serve':serve(a)
- except (Error,ValueError,KeyError,TypeError,OSError,subprocess.CalledProcessError) as e:
+ except (Error,ValueError,RuntimeError,KeyError,TypeError,OSError,subprocess.CalledProcessError) as e:
   print(json.dumps({'status':'error','message':str(e)},ensure_ascii=False),file=sys.stderr);return 2
  return 0
 if __name__=='__main__':sys.exit(main())

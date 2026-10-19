@@ -2,6 +2,15 @@
 
 ## Unreleased — 2026-10-19
 
+Follow-up after Linux user testing:
+
+- Retain synthesized sentence playback when word alignment fails, explicitly disable unavailable chunk replay, and expose per-sentence timing quality. Strict mode still requires complete word alignment.
+- Cache completed sentence WAVs for retries and collect failures across sentences rather than stopping at the first error.
+- Accept checked custom pronunciations for alignment and original-recording mismatch checking. Do not guess missing-name pronunciations.
+- Silence FFmpeg startup logs with `-v error` and fix portable HTML inlining of versioned player assets.
+- Add failure-injection regression coverage. These checks do not claim native Linux acoustic alignment reliability.
+
+
 - Add Structure / Bilingual script views, independent translation visibility, and adaptive tablet/desktop reading layouts with larger text.
 - Add per-sentence copy and standalone HTML export with embedded sentence audio. Preserve role colors, nested ownership, translations, attachment notes and structured JSON in a centered responsive document.
 - Add Linux eSpeak NG + FFmpeg synthesis, automatic backend selection and backend-dependent default voices; retain macOS speech and original-audio paths.

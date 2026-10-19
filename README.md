@@ -8,7 +8,7 @@ Install the skill in your AI assistant and invoke **`$english-chunk-flow`** with
 
 **The skill is the entry point; the bundled player is the learning interface it generates.**
 
-[![Core tests](https://img.shields.io/badge/tests-20_passed_locally-green.svg)](docs/TESTING.md) [![MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Core tests](https://img.shields.io/badge/tests-24_passed_locally-green.svg)](docs/TESTING.md) [![MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 English · [简体中文](docs/i18n/README.zh-CN.md) · [日本語](docs/i18n/README.ja.md) · [한국어](docs/i18n/README.ko.md) · [العربية](docs/i18n/README.ar.md) · [Español](docs/i18n/README.es.md) · [Português](docs/i18n/README.pt.md) · [Deutsch](docs/i18n/README.de.md) · [Русский](docs/i18n/README.ru.md)
 
@@ -115,6 +115,7 @@ Open `http://127.0.0.1:8770/index.html`. `output/workday/lesson.html` is the por
 ## Accuracy and limitations
 
 - Structural validation guarantees source coverage and schema consistency, **not** correct grammar or translation. Review the backbone, negation and attachment before delivery.
+- eSpeak/PocketSphinx can miss sentence-final words. By default, affected synthesized sentences retain whole-sentence playback with an explicit timing warning and disabled chunk replay. Use `--alignment-failure strict` to require full word timing. Completed audio is cached for retries; see [recovery and pronunciation setup](skills/english-chunk-flow/references/audio.md#alignment-failures-sentence-playback-and-retry).
 - Acoustic boundaries are estimates. Dictionary-missing words and unsupported digit normalization fail explicitly; there is no word-count timing fallback.
 - Independent local recognition is weak. Its mismatch guard can reject correct recordings and cannot certify a transcript. Investigate rather than bypassing the warning.
 - Automatic audio-only transcription, YouTube media extraction, OCR, premium TTS, live translation switching and a full desktop library are **not implemented**.

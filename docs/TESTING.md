@@ -28,3 +28,8 @@ python3 skills/english-chunk-flow/scripts/run.py build --source examples/workday
 ```
 
 Check manifest media backend/voice, actual WAV duration, acoustic replay edges and the portable lesson in a browser. This native Linux run has not been performed on the macOS development host. Vendor-app import/invocation must also be checked in each actual product.
+
+
+## Linux failure recovery regression coverage
+
+The suite now has 24 tests. `test_alignment_recovery.py` injects alignment failures to verify that later sentences continue, word-aligned offsets remain correct, sentence-only timing is explicit, strict failures retain audio for retry, custom pronunciation input is validated, FFmpeg logging is quiet and portable HTML actually inlines versioned assets. These are deterministic failure-path tests, not native Linux speech tests. User testing of eSpeak NG 1.52.0 demonstrated incomplete PocketSphinx coverage on the workday example; the new sentence-only fallback preserves lesson playback but does not establish reliable word alignment.
