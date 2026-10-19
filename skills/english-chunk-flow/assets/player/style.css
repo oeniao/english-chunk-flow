@@ -44,13 +44,4 @@ button:disabled{cursor:default;opacity:.25}.arabic .label{direction:rtl;text-ali
 
 .timing-note{font-size:12px;color:#dfc59e;line-height:1.5;margin:4px 0 10px}.sentence-timing-only .sentence-track{display:none}.sentence-timing-only .block-replay{display:none}
 
-/* Complete sentence meaning above the structure, between navigation and actions. */
-.sentence-meta{flex-wrap:wrap;gap:8px 12px;align-items:center}.sentence-translation{flex:1 1 220px;min-width:0;font-size:17px;line-height:1.65;letter-spacing:0;color:#c4d8bd;overflow-wrap:anywhere}.sentence-copy{margin-left:0}.hide-translations .sentence-translation,.script-view .sentence-translation{display:none}.script-view .sentence-copy,.hide-translations .sentence-copy{margin-left:auto}
-@media(max-width:600px){.sentence-translation{flex-basis:100%;order:1;font-size:16px;padding:3px 0 5px}.sentence-copy{margin-left:auto}}
-
-.sentence-script{flex:1 1 260px;min-width:0;display:flex;flex-direction:column;gap:4px;letter-spacing:0}.sentence-english{font-size:19px;line-height:1.55;font-weight:500;color:#e4eee5;overflow-wrap:anywhere}.sentence-script .sentence-translation{flex:none;font-size:16px;line-height:1.6}.script-view .sentence-script{display:none}.hide-translations .sentence-copy{margin-left:0}
-@media(max-width:600px){.sentence-script{flex-basis:100%;order:1;padding:3px 0 7px}.sentence-english{font-size:18px}.sentence-script .sentence-translation{font-size:15px;padding:0;order:0}.hide-translations .sentence-copy{margin-left:auto}}
-
-/* Quiet English reference; focused only during explicit sentence replay. */
-.sentence-english{font-size:13px;line-height:1.55;font-weight:400;color:#8c9f91}.sentence-script{gap:0}.focused-script .sentence-english{color:#d5e2d3}.sentence-script .sentence-translation{display:none}
-@media(max-width:600px){.sentence-english{font-size:12px}.sentence-script{padding:2px 0 4px}}
+.sentence-copy{margin-left:auto}

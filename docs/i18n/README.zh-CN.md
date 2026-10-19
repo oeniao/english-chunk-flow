@@ -62,6 +62,6 @@ Linux 新增 `--tts espeak-ng` 配音后端，需要 eSpeak NG、FFmpeg 和可�
 
 ## 最新界面演示（2026-10-19）
 
-![小字号英文提示与嵌套句法结构](../images/player.png)
+![恢复原始句首布局的新闻播放器](../images/player.png)
 
-[观看最新 workday 完整示例视频（约 27 秒，含音频）](https://github.com/oeniao/english-chunk-flow/raw/refs/heads/main/docs/images/workday-demo.mp4)。已使用 macOS Samantha 配音及 PocketSphinx 实测 6 句，并验证桌面、平板、手机排版以及统一翻译开关。结构视图句首仅显示小字号、低对比度英文；整句重听时适度突出。双语脚本视图保留课程所选语言的译文。本演示不代表 Linux 词级对齐已可靠。
+[观看最新航天新闻演示片段（40 秒，含音频）](https://github.com/oeniao/english-chunk-flow/raw/refs/heads/main/docs/images/space-news-demo.mp4)。完整课程为 49 句、708 词，实际时长 4 分 54 秒。结构视图已恢复原来的句首时间戳、序号和操作按钮，下面直接展示语法块；完整英文与译文保留在双语脚本视图和单句导出中。新闻学习稿依据 [NASA 近期报道](https://www.nasa.gov/2026-news-releases/)改写，使用 Samantha 合成语音。已验证浏览器播放及手机排版；本演示不代表 Linux 词级对齐已可靠。

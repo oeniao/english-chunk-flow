@@ -14,11 +14,11 @@ English · [简体中文](docs/i18n/README.zh-CN.md) · [日本語](docs/i18n/RE
 
 ## Latest player demo · 2026-10-19
 
-[![Watch the latest player with quiet English sentence references and Chinese grammar chunks](docs/images/player.png)](https://github.com/oeniao/english-chunk-flow/raw/refs/heads/main/docs/images/workday-demo.mp4)
+[![Watch the latest player with sentence timestamps and Chinese grammar chunks](docs/images/player.png)](https://github.com/oeniao/english-chunk-flow/raw/refs/heads/main/docs/images/space-news-demo.mp4)
 
-**[Watch or download the complete workday example · MP4 · 27 seconds](https://github.com/oeniao/english-chunk-flow/raw/refs/heads/main/docs/images/workday-demo.mp4)**
+**[Watch or download the latest space-news preview · MP4 · 40 seconds](https://github.com/oeniao/english-chunk-flow/raw/refs/heads/main/docs/images/space-news-demo.mp4)**
 
-Latest tested UI: a small, muted English sentence reference above the colored grammar chunks; selected-language translation remains in Bilingual script view, one translation toggle, adaptive reading layout, and sentence export. This six-sentence, 85-word original example uses macOS Samantha synthesized speech and PocketSphinx word alignment; actual audio duration is 26.70 seconds. This recording does not demonstrate Linux speech reliability.
+Latest tested UI: the original sentence header with timestamp, number and actions, followed directly by colored grammar chunks. Full English and translated scripts remain in **Bilingual script** view and exported sentence files. The screenshot and 40-second video excerpt show the latest space-news learning edition: 49 sentences, 708 words, actual full audio duration **4:54**. Based on [recent NASA reports](https://www.nasa.gov/2026-news-releases/), with assistant-written learning text and Chinese explanations, macOS Samantha synthesized speech and PocketSphinx word alignment. This recording does not demonstrate Linux speech reliability.
 
 [Earlier full-length news demo · MP4 · 4:58](https://github.com/oeniao/english-chunk-flow/releases/download/v0.1.0/musk-roadster-full-lesson.mp4)
 

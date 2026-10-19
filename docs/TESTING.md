@@ -42,3 +42,6 @@ Built `examples/workday` with the real macOS `say` / Samantha voice at 130 wpm a
 The portable-file regression now parses inline script elements as HTML and checks each extracted JavaScript body with Node when available, catching accidental closing script tags inside embedded export templates.
 
 Latest refinement retested on the same workday example: small English-only headers, no full header translations, explicit sentence replay focus, normal-playback focus reset, retained bilingual script translation, and 1280px / 1024px / 390px layouts. Screenshot and full video recaptured.
+
+
+Final header restoration verified against the new 49-sentence, 708-word space-news learning lesson (294.482375 seconds, macOS Samantha, all sentences word-aligned). Online and standalone HTML show no full header script, Bilingual script view remains available, and the latest 40-second real-playback excerpt is recorded from this final layout with its matching synthesized audio. The 24-test suite and JavaScript syntax checks pass.

@@ -2,6 +2,8 @@
 
 ## Unreleased — 2026-10-19
 
+Final layout: remove the full English reference from Structure headers entirely, restoring timestamp/number/actions followed by grammar chunks. Retain full scripts in Bilingual script view and exports. Replace homepage media with the current space-news screenshot and a 40-second audio/video excerpt.
+
 Latest refinement: Structure headers show only small, muted English; explicit sentence replay brightens the reference. Bilingual script view and exports retain translations. Updated demo media reflects this refinement.
 
 - Show complete English and selected-language sentence scripts above grammar chunks. Reuse the translation toggle, retain English when translations are hidden, and avoid duplicate headers in Bilingual script view.
