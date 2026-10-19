@@ -10,7 +10,7 @@
 
 English Chunk Flow는 영어 문장을 문법 청크로 나누고 색상과 중첩 배경으로 주어, 서술어, 절, 수식 관계를 보여 주는 오픈 소스 듣기 스킬입니다. 단어는 알지만 문장 전체를 따라가기 어려운 학습자를 돕습니다.
 
-![English Chunk Flow](../images/player.png)
+![English Chunk Flow](../images/space-news-player-20261019.png)
 
 ## 기능
 

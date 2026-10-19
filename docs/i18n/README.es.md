@@ -10,7 +10,7 @@ Invoca `$english-chunk-flow` con material en inglés o un tema. El asistente pre
 
 English Chunk Flow es una habilidad de código abierto para practicar la comprensión oral del inglés mediante bloques gramaticales, colores y fondos anidados. Ayuda a identificar el sujeto, el predicado y las relaciones entre cláusulas cuando conocer las palabras no basta.
 
-![English Chunk Flow](../images/player.png)
+![English Chunk Flow](../images/space-news-player-20261019.png)
 
 ## Funciones
 

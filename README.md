@@ -14,7 +14,7 @@ English · [简体中文](docs/i18n/README.zh-CN.md) · [日本語](docs/i18n/RE
 
 ## Latest player demo · 2026-10-19
 
-[![Watch the latest player with sentence timestamps and Chinese grammar chunks](docs/images/player.png)](https://github.com/oeniao/english-chunk-flow/raw/refs/heads/main/docs/images/space-news-demo.mp4)
+[![Watch the latest player with sentence timestamps and Chinese grammar chunks](docs/images/space-news-player-20261019.png)](https://github.com/oeniao/english-chunk-flow/raw/refs/heads/main/docs/images/space-news-demo.mp4)
 
 **[Watch or download the latest space-news preview · MP4 · 40 seconds](https://github.com/oeniao/english-chunk-flow/raw/refs/heads/main/docs/images/space-news-demo.mp4)**
 

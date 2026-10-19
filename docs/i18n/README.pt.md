@@ -10,7 +10,7 @@ Invoque `$english-chunk-flow` com um texto em inglês ou um tema. O assistente p
 
 English Chunk Flow é uma habilidade de código aberto para praticar a compreensão oral do inglês por blocos gramaticais. Cores e fundos aninhados mostram sujeito, predicado, orações e modificadores para quem conhece as palavras, mas perde o sentido da frase.
 
-![English Chunk Flow](../images/player.png)
+![English Chunk Flow](../images/space-news-player-20261019.png)
 
 ## Recursos
 

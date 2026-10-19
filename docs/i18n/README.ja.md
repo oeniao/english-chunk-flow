@@ -10,7 +10,7 @@
 
 English Chunk Flow は、英文を文単位のチャンクに分け、主語・述語・節・修飾の関係を色と入れ子の背景で示すオープンソースの英語リスニングスキルです。単語は分かるのに文全体を理解しにくい学習者を支援します。
 
-![English Chunk Flow](../images/player.png)
+![English Chunk Flow](../images/space-news-player-20261019.png)
 
 ## 機能
 

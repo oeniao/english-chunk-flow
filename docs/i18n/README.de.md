@@ -10,7 +10,7 @@ Rufe `$english-chunk-flow` mit englischem Material oder einem Thema auf. Der Ass
 
 English Chunk Flow ist ein quelloffener Skill zum Englisch-Hörtraining mit grammatischen Sinneinheiten. Farben und verschachtelte Hintergründe zeigen Subjekt, Prädikat, Nebensätze und Ergänzungen – für Lernende, die einzelne Wörter kennen, aber den Satz nicht schnell erfassen.
 
-![English Chunk Flow](../images/player.png)
+![English Chunk Flow](../images/space-news-player-20261019.png)
 
 ## Funktionen
 
