@@ -50,3 +50,7 @@ button:disabled{cursor:default;opacity:.25}.arabic .label{direction:rtl;text-ali
 
 .sentence-script{flex:1 1 260px;min-width:0;display:flex;flex-direction:column;gap:4px;letter-spacing:0}.sentence-english{font-size:19px;line-height:1.55;font-weight:500;color:#e4eee5;overflow-wrap:anywhere}.sentence-script .sentence-translation{flex:none;font-size:16px;line-height:1.6}.script-view .sentence-script{display:none}.hide-translations .sentence-copy{margin-left:0}
 @media(max-width:600px){.sentence-script{flex-basis:100%;order:1;padding:3px 0 7px}.sentence-english{font-size:18px}.sentence-script .sentence-translation{font-size:15px;padding:0;order:0}.hide-translations .sentence-copy{margin-left:auto}}
+
+/* Quiet English reference; focused only during explicit sentence replay. */
+.sentence-english{font-size:13px;line-height:1.55;font-weight:400;color:#8c9f91}.sentence-script{gap:0}.focused-script .sentence-english{color:#d5e2d3}.sentence-script .sentence-translation{display:none}
+@media(max-width:600px){.sentence-english{font-size:12px}.sentence-script{padding:2px 0 4px}}

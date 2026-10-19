@@ -14,11 +14,11 @@ English · [简体中文](docs/i18n/README.zh-CN.md) · [日本語](docs/i18n/RE
 
 ## Latest player demo · 2026-10-19
 
-[![Watch the latest player with complete English and Chinese sentence scripts](docs/images/player.png)](https://github.com/oeniao/english-chunk-flow/raw/refs/heads/main/docs/images/workday-demo.mp4)
+[![Watch the latest player with quiet English sentence references and Chinese grammar chunks](docs/images/player.png)](https://github.com/oeniao/english-chunk-flow/raw/refs/heads/main/docs/images/workday-demo.mp4)
 
 **[Watch or download the complete workday example · MP4 · 27 seconds](https://github.com/oeniao/english-chunk-flow/raw/refs/heads/main/docs/images/workday-demo.mp4)**
 
-Latest tested UI: complete English sentence and selected-language translation above the colored grammar chunks, one translation toggle, adaptive reading layout, and sentence export. This six-sentence, 85-word original example uses macOS Samantha synthesized speech and PocketSphinx word alignment; actual audio duration is 26.70 seconds. This recording does not demonstrate Linux speech reliability.
+Latest tested UI: a small, muted English sentence reference above the colored grammar chunks; selected-language translation remains in Bilingual script view, one translation toggle, adaptive reading layout, and sentence export. This six-sentence, 85-word original example uses macOS Samantha synthesized speech and PocketSphinx word alignment; actual audio duration is 26.70 seconds. This recording does not demonstrate Linux speech reliability.
 
 [Earlier full-length news demo · MP4 · 4:58](https://github.com/oeniao/english-chunk-flow/releases/download/v0.1.0/musk-roadster-full-lesson.mp4)
 

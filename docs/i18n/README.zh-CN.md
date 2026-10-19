@@ -62,6 +62,6 @@ Linux 新增 `--tts espeak-ng` 配音后端，需要 eSpeak NG、FFmpeg 和可�
 
 ## 最新界面演示（2026-10-19）
 
-![完整英文脚本、整句译文与嵌套句法结构](../images/player.png)
+![小字号英文提示与嵌套句法结构](../images/player.png)
 
-[观看最新 workday 完整示例视频（约 27 秒，含音频）](https://github.com/oeniao/english-chunk-flow/raw/refs/heads/main/docs/images/workday-demo.mp4)。已使用 macOS Samantha 配音及 PocketSphinx 实测 6 句，并验证桌面、平板、手机排版以及统一翻译开关。译文跟随课程选择的解释语言，英文保持原文。本演示不代表 Linux 词级对齐已可靠。
+[观看最新 workday 完整示例视频（约 27 秒，含音频）](https://github.com/oeniao/english-chunk-flow/raw/refs/heads/main/docs/images/workday-demo.mp4)。已使用 macOS Samantha 配音及 PocketSphinx 实测 6 句，并验证桌面、平板、手机排版以及统一翻译开关。结构视图句首仅显示小字号、低对比度英文；整句重听时适度突出。双语脚本视图保留课程所选语言的译文。本演示不代表 Linux 词级对齐已可靠。

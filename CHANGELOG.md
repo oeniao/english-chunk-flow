@@ -2,6 +2,8 @@
 
 ## Unreleased — 2026-10-19
 
+Latest refinement: Structure headers show only small, muted English; explicit sentence replay brightens the reference. Bilingual script view and exports retain translations. Updated demo media reflects this refinement.
+
 - Show complete English and selected-language sentence scripts above grammar chunks. Reuse the translation toggle, retain English when translations are hidden, and avoid duplicate headers in Bilingual script view.
 - Refresh the screenshot and full workday playback video after an actual macOS synthesis/alignment and browser test; verify Japanese and Arabic text-only language variants.
 - Escape the sentence export's embedded closing script tag so portable lessons execute correctly offline.
