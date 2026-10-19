@@ -158,14 +158,25 @@ def validate_times(t,text,duration):
   last=end
  return ws
 
-def make_audio(a,out,voice,rate,audio_path,word_times,allow_mismatch):
+def speech_backend(requested='auto'):
+ if requested=='auto':
+  if sys.platform=='darwin' and shutil.which('say') and shutil.which('afconvert'):return 'say'
+  if shutil.which('espeak-ng') and shutil.which('ffmpeg'):return 'espeak-ng'
+  raise Error('No local speech backend. macOS: say + afconvert. Linux: install espeak-ng + ffmpeg. Or provide --audio / use --text-only.')
+ if requested=='say' and (not shutil.which('say') or not shutil.which('afconvert')):raise Error('--tts say requires macOS say + afconvert; use --tts espeak-ng on Linux.')
+ if requested=='espeak-ng' and (not shutil.which('espeak-ng') or not shutil.which('ffmpeg')):raise Error('--tts espeak-ng requires espeak-ng + ffmpeg on PATH.')
+ if requested not in ('say','espeak-ng'):raise Error('Unknown speech backend: '+requested)
+ return requested
+
+def make_audio(a,out,voice,rate,audio_path,word_times,allow_mismatch,tts='auto'):
  text=' '.join(s['text'] for s in a['sentences']);audio=out/'audio.wav'
  if audio_path:
   dur=decode(audio_path,audio)
   times=json.loads(Path(word_times).read_text()) if word_times else align(audio,text,True,allow_mismatch)
   validate_times(times,text,dur)
   return times,{'kind':'original','voice':'Original recording','source_filename':Path(audio_path).name,'duration':dur}
- if not shutil.which('say') or not shutil.which('afconvert'):raise Error('Local say speech needs macOS. Provide audio/timings or --text-only on other hosts.')
+ backend=speech_backend(tts)
+ voice=voice or ('Samantha' if backend=='say' else 'en-us')
  if word_times:raise Error('--word-times is only for original supplied audio')
  allwords=[];offset=0
  with tempfile.TemporaryDirectory(prefix='chunk-speech-') as temp:
@@ -173,14 +184,19 @@ def make_audio(a,out,voice,rate,audio_path,word_times,allow_mismatch):
   with wave.open(str(audio),'wb') as output:
    output.setnchannels(1);output.setsampwidth(2);output.setframerate(16000)
    for i,s in enumerate(a['sentences']):
-    f=temp/'sentence.txt';f.write_text(s['text']);aiff=temp/'sentence.aiff';wav=temp/'sentence.wav'
-    run(['say','-v',voice,'-r',rate,'-f',f,'-o',aiff]);run(['afconvert','-f','WAVE','-d','LEI16@16000','-c','1',aiff,wav])
+    f=temp/'sentence.txt';f.write_text(s['text'],encoding='utf-8');aiff=temp/'sentence.aiff';wav=temp/'sentence.wav'
+    if backend=='say':
+     run(['say','-v',voice,'-r',rate,'-f',f,'-o',aiff]);run(['afconvert','-f','WAVE','-d','LEI16@16000','-c','1',aiff,wav])
+    else:
+     raw=temp/'espeak.wav'
+     run(['espeak-ng','-v',voice,'-s',rate,'-f',f,'-w',raw])
+     run(['ffmpeg','-nostdin','-y','-i',raw,'-ac','1','-ar','16000','-c:a','pcm_s16le',wav])
     dur=wav_info(wav)[1];t=align(wav,s['text']);validate_times(t,s['text'],dur)
     allwords.extend(dict(w,start=round(w['start']+offset,4),end=round(w['end']+offset,4)) for w in t['words'])
     with wave.open(str(wav),'rb') as part:output.writeframes(part.readframes(part.getnframes()))
     offset+=dur
     print(f'Synthesized and acoustically aligned sentence {i+1}/{len(a["sentences"])}',flush=True)
- return {'words':allwords,'duration':offset,'provenance':'pocketsphinx-5.1.1-acoustic-alignment','warnings':['Local acoustic estimates; verify replay edges. This is system synthesized speech, not authenticated regional accent.']},{'kind':'synthesized','voice':voice,'rate':rate,'duration':offset}
+ return {'words':allwords,'duration':offset,'provenance':'pocketsphinx-5.1.1-acoustic-alignment','warnings':['Local acoustic estimates; verify replay edges. This is system synthesized speech, not authenticated regional accent.']},{'kind':'synthesized','backend':backend,'voice':voice,'rate':rate,'duration':offset}
 
 def attach(a,t):
  ws=t['words'];cursor=0
@@ -209,7 +225,7 @@ def build(args):
    for s in a['sentences']:s.update(start=0,end=0,duration=0)
    warnings=['Text-only lesson: no audio or word timing; replay is disabled.']
   else:
-   times,media=make_audio(a,stage,args.voice,args.rate,args.audio,args.word_times,args.allow_mismatch);attach(a,times);warnings=times.get('warnings',[])
+   times,media=make_audio(a,stage,args.voice,args.rate,args.audio,args.word_times,args.allow_mismatch,args.tts);attach(a,times);warnings=times.get('warnings',[])
   media_fingerprint=hashlib.sha256((stage/'audio.wav').read_bytes()).hexdigest() if times else ''
   identity=hashlib.sha256((json.dumps(a,sort_keys=True,ensure_ascii=False)+media_fingerprint+norm(source)+a.get('locale','zh-CN')+json.dumps(media,sort_keys=True)).encode()).hexdigest()[:20]
   manifest={'schema_version':1,'id':identity,'title':a.get('title','Listening practice'),'subtitle':a.get('subtitle',''),'locale':a.get('locale','zh-CN'),'source_type':a.get('source_type','audio_transcript' if args.audio else 'text'),'source_url':a.get('source_url',''),'media':media,'alignment':times['provenance'] if times else 'none','warnings':warnings,'stats':stats,'annotation_method':'host-assistant-linguistic-analysis','created_at':time.strftime('%Y-%m-%dT%H:%M:%S%z')}
@@ -294,11 +310,11 @@ def main():
  for command in ('validate','build'):
   b=sub.add_parser(command);b.add_argument('--source',required=True);b.add_argument('--annotation',required=True)
   if command=='build':
-   b.add_argument('--out',required=True);b.add_argument('--tts',choices=['say'],default='say');b.add_argument('--voice',default='Samantha');b.add_argument('--rate',type=int,default=130);b.add_argument('--audio');b.add_argument('--word-times');b.add_argument('--text-only',action='store_true');b.add_argument('--replace',action='store_true');b.add_argument('--allow-mismatch',action='store_true')
+   b.add_argument('--out',required=True);b.add_argument('--tts',choices=['auto','say','espeak-ng'],default='auto');b.add_argument('--voice',help='Backend voice: Samantha for say, en-us for espeak-ng by default');b.add_argument('--rate',type=int,default=130);b.add_argument('--audio');b.add_argument('--word-times');b.add_argument('--text-only',action='store_true');b.add_argument('--replace',action='store_true');b.add_argument('--allow-mismatch',action='store_true')
  s=sub.add_parser('serve');s.add_argument('--root',required=True);s.add_argument('--port',type=int,default=8770)
  a=p.parse_args()
  try:
-  if a.command=='doctor':print(json.dumps({'python':sys.executable,'speech_say':shutil.which('say'),'decoder_afconvert':shutil.which('afconvert'),'decoder_ffmpeg':shutil.which('ffmpeg'),'acoustic_aligner':bool(importlib.util.find_spec('pocketsphinx')),'supported_inputs':['text','html','docx','srt','vtt','audio+transcript','host-generated topic'],'not_bundled':['ASR-only','PDF/OCR','YouTube extraction','premium TTS APIs']},ensure_ascii=False))
+  if a.command=='doctor':print(json.dumps({'python':sys.executable,'platform':sys.platform,'speech_say':shutil.which('say'),'speech_espeak_ng':shutil.which('espeak-ng'),'decoder_afconvert':shutil.which('afconvert'),'decoder_ffmpeg':shutil.which('ffmpeg'),'acoustic_aligner':bool(importlib.util.find_spec('pocketsphinx')),'supported_inputs':['text','html','docx','srt','vtt','audio+transcript','host-generated topic'],'not_bundled':['ASR-only','PDF/OCR','YouTube extraction','premium TTS APIs']},ensure_ascii=False))
   elif a.command=='extract':Path(a.out).write_text(extract(a.input));print(a.out)
   elif a.command=='validate':print(json.dumps(prepare(Path(a.source).read_text(),json.loads(Path(a.annotation).read_text()))[1]))
   elif a.command=='build':

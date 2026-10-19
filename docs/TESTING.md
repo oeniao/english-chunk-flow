@@ -13,3 +13,18 @@ The opt-in CI template validates source coverage/rejection cases, subtitle/docum
 Local development additionally exercised system speech, PocketSphinx alignment, retained PCM, mismatch guards, audio Range requests, atomic state saving and browser playback. These checks are not equivalent to automatic ASR accuracy on authentic exam recordings, multilingual translation certification, a naturalness blind test or a learning-effectiveness study.
 
 Browser checklist: English controls; selected-language grammar meanings; no chunk overflow; play/pause; chunk/group/sentence stop boundaries; left timestamp continues the lesson; saved chunk persists; final timeline ends with actual duration + check + Finished listening. Confirm portable HTML contains actual audio before claiming offline playback. Time-only and text-only variants must not fabricate audio.
+
+
+## Portability checks
+
+`tests/test_portability.py` covers Linux backend selection and missing dependencies, macOS preference, eSpeak/FFmpeg command routing with synthetic PCM fixtures, sentence audio offsets, original-audio preservation, host installation locations and overwrite refusal. These run locally alongside the core suite (20 tests total); synthesis/alignment are mocked in the portability pipeline test. They are not native Linux or vendor-app end-to-end results.
+
+To exercise real Linux speech after installing dependencies, from the repository root run:
+
+```sh
+python3 skills/english-chunk-flow/scripts/setup.py
+python3 skills/english-chunk-flow/scripts/run.py doctor
+python3 skills/english-chunk-flow/scripts/run.py build --source examples/workday/source.txt --annotation examples/workday/annotation.json --out output/linux-workday --tts espeak-ng
+```
+
+Check manifest media backend/voice, actual WAV duration, acoustic replay edges and the portable lesson in a browser. This native Linux run has not been performed on the macOS development host. Vendor-app import/invocation must also be checked in each actual product.

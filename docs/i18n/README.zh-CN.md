@@ -49,3 +49,12 @@ python3 skills/english-chunk-flow/scripts/run.py serve --root output/workday --p
 工具本地处理文件，不内置云端 API；宿主助手的模型仍遵循其账户配置，不能据此称为完全离线。别把私人录音、历史记录或密钥提交到仓库。MIT 许可证；依赖保留各自许可证。欢迎提交语法、翻译、播放与无障碍改进。
 
 [MIT](../../LICENSE) · [Contributing](../../CONTRIBUTING.md) · [Privacy](../../SECURITY.md) · [Architecture](../ARCHITECTURE.md) · [Testing](../TESTING.md) · [Third-party notices](../../THIRD_PARTY_NOTICES.md)
+
+
+## 多宿主与 Linux
+
+同一技能包现提供 WorkBuddy、Claude 和 Grok Build 的安装说明，详见[宿主兼容说明](../../skills/english-chunk-flow/references/hosts.md)。WorkBuddy 可通过“添加技能 → 上传技能”导入 ZIP；Claude Code 和 Grok Build 支持各自的技能目录。普通聊天页面需要实际具备代码执行与文件输出工具。
+
+Linux 新增 `--tts espeak-ng` 配音后端，需要 eSpeak NG、FFmpeg 和可用的 PocketSphinx 对齐环境。`--tts auto` 自动选择可用后端；已有音频和纯文本路径也可使用。详见 [Linux 音频配置](../../skills/english-chunk-flow/references/audio.md#linux-local-speech)。云端生成后应下载 `lesson.html`，云端 localhost 链接不能直接在个人电脑打开。
+
+目前新增自动测试覆盖后端选择、音频命令及打包、宿主安装路径；尚未在上述三个产品或原生 Linux 系统中完成端到端实测。

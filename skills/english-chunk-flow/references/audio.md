@@ -17,3 +17,20 @@ python3 /path/to/english-chunk-flow/scripts/lesson.py serve --root /abs/lesson -
 ```
 
 The listener binds loopback only, supports audio Range reads and a small per-lesson state API. Review state is stored atomically beside the output, using browser localStorage as fallback if the API isn't available (such as opening lesson.html with file://). Key APIs are not included and there is no hosted backend.
+
+
+## Linux local speech
+
+Python extraction, validation, original-audio processing, packaging and loopback serving are portable. Synthesized audio uses eSpeak NG with FFmpeg normalization to 16kHz mono PCM16, then the same acoustic alignment pipeline. `--tts auto` selects this backend when available; `--tts espeak-ng` requires it explicitly. `--voice` defaults to `en-us` for this backend; inspect installed voices with `espeak-ng --voices=en`. This is intelligible local synthetic speech, not a naturalness or regional-accent guarantee. No speech model or cloud API is downloaded by the build command.
+
+For Debian/Ubuntu (run installation only with the user's authorization):
+
+```sh
+sudo apt-get update
+sudo apt-get install python3 python3-venv espeak-ng ffmpeg
+python3 /path/to/english-chunk-flow/scripts/setup.py
+python3 /path/to/english-chunk-flow/scripts/run.py doctor
+python3 /path/to/english-chunk-flow/scripts/run.py build --source /abs/source.txt --annotation /abs/annotation.json --out /abs/lesson --tts espeak-ng
+```
+
+Other distributions should install equivalent packages through their own package manager. A headless Linux machine needs no audio device for WAV synthesis. Browser audio playback occurs on the learner's device. Missing alignment dependencies still fail explicitly; install PocketSphinx in the isolated venv or supply verified original-audio timings / use text-only. No fabricated timings or silent text-only fallback.

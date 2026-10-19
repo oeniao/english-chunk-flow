@@ -1,14 +1,14 @@
 # English Chunk Flow · Agent Skill
 
-**An open-source Codex skill for learning English through chunks.**
+**An open-source Agent Skill for learning English through chunks.**
 
 *Hear the words. Follow the structure.*
 
-Install the skill in your AI assistant and invoke **`$english-chunk-flow`** with your English material or a topic. The assistant uses the skill to prepare sentence-level grammar chunks, contextual translations and a playable listening lesson. Tested with Codex desktop.
+Install the skill in your AI assistant and invoke **`$english-chunk-flow`** with your English material or a topic. The assistant uses the skill to prepare sentence-level grammar chunks, contextual translations and a playable listening lesson. Includes installation guidance for WorkBuddy, Grok Build and Claude, plus macOS and Linux runtime paths. See [host compatibility](skills/english-chunk-flow/references/hosts.md) for requirements and verification limits.
 
 **The skill is the entry point; the bundled player is the learning interface it generates.**
 
-[![Core tests](https://img.shields.io/badge/core_tests-15_passed_locally-green.svg)](docs/TESTING.md) [![MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Core tests](https://img.shields.io/badge/tests-20_passed_locally-green.svg)](docs/TESTING.md) [![MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 English · [简体中文](docs/i18n/README.zh-CN.md) · [日本語](docs/i18n/README.ja.md) · [한국어](docs/i18n/README.ko.md) · [العربية](docs/i18n/README.ar.md) · [Español](docs/i18n/README.es.md) · [Português](docs/i18n/README.pt.md) · [Deutsch](docs/i18n/README.de.md) · [Русский](docs/i18n/README.ru.md)
 
@@ -34,13 +34,15 @@ This skill is an early alpha with bundled local processing tools and a lesson pl
 - Ask the host assistant to write original practice material from a topic and level.
 - Read sentence units while captions scroll continuously. Role colors and nested backgrounds show ownership; long clauses reveal local structure and long phrases can expose core chunks.
 - Use Chinese, Japanese, Korean, Arabic, Spanish, Portuguese, German or Russian meanings, or English explanations. **Product controls remain English.** A lesson has one explanation language; multiple languages are separate versions.
+- Switch between **Structure** and **Bilingual script** views, with an independent translation toggle. Adaptive tablet/desktop layouts use a wider reading area and larger text, with a responsive phone layout.
+- **Copy & export** on each sentence copies English, translation and syntax as text and downloads a standalone HTML file containing colored, nested grammar chunks and the embedded sentence audio clip. Text-only lessons explicitly omit audio.
 - Tap a chunk or its subtle replay icon. Parent blocks replay their entire span. The sentence replay icon stops after that sentence; the left timestamp continues the lesson.
 - Save a difficult chunk via right-click, long-press or Shift+F10. Review it in **Lesson menu → Saved chunks**. Position, intentional replays and saved chunks persist locally where storage is available.
 - Generate a local player folder and an offline single HTML file with embedded audio. The last timeline node shows the actual end time, a check and **Finished listening**.
 
 | Input | Current implementation |
 | --- | --- |
-| Text / original topic | Host annotation, macOS speech and acoustic alignment |
+| Text / original topic | Host annotation, macOS or Linux speech and acoustic alignment |
 | Audio + transcript | Retain original recording, local decode/alignment, mismatch guard |
 | SRT/VTT | Extract and rejoin into sentences; cue boundaries are not grammar boundaries |
 | Article link | Host browser retrieves readable text; CLI does not fetch URLs |
@@ -50,7 +52,7 @@ This skill is an early alpha with bundled local processing tools and a lesson pl
 
 - A host assistant that can load `SKILL.md` and execute local tools; tested in the Codex desktop environment.
 - Python 3.10+ for extraction, validation and packaging.
-- **macOS** with `say` and `afconvert` for the implemented local synthesis path; default installed voice `Samantha`.
+- Local synthesis: **macOS** with `say` + `afconvert`, or **Linux** with `espeak-ng` + `ffmpeg`. `--tts auto` detects an available backend; voices default to `Samantha` / `en-us` respectively.
 - Optional PocketSphinx **5.1.1** for acoustic alignment. Setup installs dependencies from PyPI into a skill-local virtual environment.
 
 No additional text-model API key is needed when the host assistant generates the annotations. Your host model/account may still incur its normal costs. Local file processing does not mean the assistant itself runs offline. The project bundles no premium speech API, voice model download or verified US/UK/Australian accent selector.
@@ -64,6 +66,18 @@ python3 scripts/install.py
 ```
 
 The installer copies only the skill into `~/.agents/skills/english-chunk-flow` and refuses to overwrite an existing installation. To use another location supported by your host, pass `--dest /absolute/skill/directory`. Local skill discovery locations are described in [official OpenAI documentation](https://learn.chatgpt.com/docs/build-skills).
+
+Host-specific installation (the default above remains `~/.agents/skills`):
+
+```sh
+python3 scripts/install.py --host claude
+python3 scripts/install.py --host grok
+python3 scripts/install.py --host workbuddy --project /absolute/workspace
+```
+
+For WorkBuddy personal installation, use its **Add skill → Upload skill** UI with the ZIP. Claude chat supports custom skill import where enabled. Grok Build discovery is supported; ordinary Grok chat requires actual file/code tools. See [host instructions](skills/english-chunk-flow/references/hosts.md).
+
+On Debian/Ubuntu install `python3-venv espeak-ng ffmpeg` through your package manager, then run the isolated setup below. See [Linux audio setup](skills/english-chunk-flow/references/audio.md#linux-local-speech). No operating-system packages are installed by the skill installer.
 
 Optional local alignment setup:
 
@@ -92,7 +106,7 @@ From the repository root, use the installed runtime if needed:
 
 ```sh
 python3 skills/english-chunk-flow/scripts/setup.py
-python3 skills/english-chunk-flow/scripts/run.py build --source examples/workday/source.txt --annotation examples/workday/annotation.json --out output/workday --tts say
+python3 skills/english-chunk-flow/scripts/run.py build --source examples/workday/source.txt --annotation examples/workday/annotation.json --out output/workday --tts auto
 python3 skills/english-chunk-flow/scripts/run.py serve --root output/workday --port 8770
 ```
 
