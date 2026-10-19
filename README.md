@@ -12,15 +12,15 @@ Install the skill in your AI assistant and invoke **`$english-chunk-flow`** with
 
 English · [简体中文](docs/i18n/README.zh-CN.md) · [日本語](docs/i18n/README.ja.md) · [한국어](docs/i18n/README.ko.md) · [العربية](docs/i18n/README.ar.md) · [Español](docs/i18n/README.es.md) · [Português](docs/i18n/README.pt.md) · [Deutsch](docs/i18n/README.de.md) · [Русский](docs/i18n/README.ru.md)
 
-## Watch a full lesson
+## Latest player demo · 2026-10-19
 
-[![Watch the complete 4:58 lesson with Chinese grammar chunks](docs/images/musk-roadster-demo.jpg)](https://github.com/oeniao/english-chunk-flow/releases/download/v0.1.0/musk-roadster-full-lesson.mp4)
+[![Watch the latest player with complete English and Chinese sentence scripts](docs/images/player.png)](https://github.com/oeniao/english-chunk-flow/raw/refs/heads/main/docs/images/workday-demo.mp4)
 
-**[Watch or download the full demo · MP4 · 4:58](https://github.com/oeniao/english-chunk-flow/releases/download/v0.1.0/musk-roadster-full-lesson.mp4)**
+**[Watch or download the complete workday example · MP4 · 27 seconds](https://github.com/oeniao/english-chunk-flow/raw/refs/heads/main/docs/images/workday-demo.mp4)**
 
-A complete real-time playback of *Musk’s Flying Roadster: Demo and Reality*: English audio, Chinese chunk meanings, colored grammar roles, nested clauses and synchronized scrolling. This original news-based learning adaptation uses local Samantha synthesized speech; it is not a recording of Musk or the launch event. Word alignment is an estimate.
+Latest tested UI: complete English sentence and selected-language translation above the colored grammar chunks, one translation toggle, adaptive reading layout, and sentence export. This six-sentence, 85-word original example uses macOS Samantha synthesized speech and PocketSphinx word alignment; actual audio duration is 26.70 seconds. This recording does not demonstrate Linux speech reliability.
 
-![English Chunk Flow with Chinese learning explanations](docs/images/player.png)
+[Earlier full-length news demo · MP4 · 4:58](https://github.com/oeniao/english-chunk-flow/releases/download/v0.1.0/musk-roadster-full-lesson.mp4)
 
 ## Why this exists
 

@@ -21,3 +21,6 @@ state.json.tmp
 
 # Private resumable synthesized sentence audio
 .*-audio-cache/
+
+# Public original learning-demo recording
+!docs/images/workday-demo.mp4

@@ -2,6 +2,10 @@
 
 ## Unreleased — 2026-10-19
 
+- Show complete English and selected-language sentence scripts above grammar chunks. Reuse the translation toggle, retain English when translations are hidden, and avoid duplicate headers in Bilingual script view.
+- Refresh the screenshot and full workday playback video after an actual macOS synthesis/alignment and browser test; verify Japanese and Arabic text-only language variants.
+- Escape the sentence export's embedded closing script tag so portable lessons execute correctly offline.
+
 Follow-up after Linux user testing:
 
 - Retain synthesized sentence playback when word alignment fails, explicitly disable unavailable chunk replay, and expose per-sentence timing quality. Strict mode still requires complete word alignment.

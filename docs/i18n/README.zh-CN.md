@@ -58,3 +58,10 @@ python3 skills/english-chunk-flow/scripts/run.py serve --root output/workday --p
 Linux 新增 `--tts espeak-ng` 配音后端，需要 eSpeak NG、FFmpeg 和可用的 PocketSphinx 对齐环境。`--tts auto` 自动选择可用后端；已有音频和纯文本路径也可使用。详见 [Linux 音频配置](../../skills/english-chunk-flow/references/audio.md#linux-local-speech)。云端生成后应下载 `lesson.html`，云端 localhost 链接不能直接在个人电脑打开。
 
 目前新增自动测试覆盖后端选择、音频命令及打包、宿主安装路径；尚未在上述三个产品或原生 Linux 系统中完成端到端实测。
+
+
+## 最新界面演示（2026-10-19）
+
+![完整英文脚本、整句译文与嵌套句法结构](../images/player.png)
+
+[观看最新 workday 完整示例视频（约 27 秒，含音频）](https://github.com/oeniao/english-chunk-flow/raw/refs/heads/main/docs/images/workday-demo.mp4)。已使用 macOS Samantha 配音及 PocketSphinx 实测 6 句，并验证桌面、平板、手机排版以及统一翻译开关。译文跟随课程选择的解释语言，英文保持原文。本演示不代表 Linux 词级对齐已可靠。

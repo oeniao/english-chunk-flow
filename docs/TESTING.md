@@ -33,3 +33,10 @@ Check manifest media backend/voice, actual WAV duration, acoustic replay edges a
 ## Linux failure recovery regression coverage
 
 The suite now has 24 tests. `test_alignment_recovery.py` injects alignment failures to verify that later sentences continue, word-aligned offsets remain correct, sentence-only timing is explicit, strict failures retain audio for retry, custom pronunciation input is validated, FFmpeg logging is quiet and portable HTML actually inlines versioned assets. These are deterministic failure-path tests, not native Linux speech tests. User testing of eSpeak NG 1.52.0 demonstrated incomplete PocketSphinx coverage on the workday example; the new sentence-only fallback preserves lesson playback but does not establish reliable word alignment.
+
+
+## Full sentence scripts and refreshed demo (2026-10-19)
+
+Built `examples/workday` with the real macOS `say` / Samantha voice at 130 wpm and PocketSphinx 5.1.1: 6 sentences, 85 words, 48 leaves, 26.6955625 seconds, all six sentences word-aligned. Opened the generated offline `lesson.html` in Chromium and verified complete English and Chinese header scripts, translation visibility without hiding English, Structure / Bilingual script switching, no duplicate header in script mode, no overflow or action overlap at 1280px / 1024px / 390px, and sentence export. Played the entire lesson to completion and captured the screenshot and video shown on the homepage, with the generated audio muxed into the video. Also built Japanese and Arabic text-only examples and verified their header text, locale and shared translation toggle. These runs do not establish native Linux speech reliability.
+
+The portable-file regression now parses inline script elements as HTML and checks each extracted JavaScript body with Node when available, catching accidental closing script tags inside embedded export templates.

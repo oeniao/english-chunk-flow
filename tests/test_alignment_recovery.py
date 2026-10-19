@@ -44,4 +44,21 @@ class RecoveryTests(unittest.TestCase):
    subprocess.run([sys.executable,str(ROOT/'skills/english-chunk-flow/scripts/lesson.py'),'build','--source',str(ROOT/'examples/workday/source.txt'),'--annotation',str(ROOT/'examples/workday/annotation.json'),'--out',str(out),'--text-only'],check=True,capture_output=True)
    portable=(out/'lesson.html').read_text()
    self.assertNotIn('src="app.js',portable);self.assertNotIn('href="style.css',portable);self.assertIn('function exportSentence',portable)
+   # Parse like HTML, then check the actual inline scripts. Embedded export HTML
+   # must not terminate its surrounding player script prematurely.
+   from html.parser import HTMLParser
+   class Scripts(HTMLParser):
+    def __init__(self):super().__init__();self.inside=False;self.scripts=[]
+    def handle_starttag(self,tag,attrs):
+     if tag=='script':self.inside=True;self.scripts.append('')
+    def handle_endtag(self,tag):
+     if tag=='script':self.inside=False
+    def handle_data(self,data):
+     if self.inside:self.scripts[-1]+=data
+   parser=Scripts();parser.feed(portable)
+   import shutil
+   if shutil.which('node'):
+    for i,script in enumerate(parser.scripts):
+     path=Path(t)/f'inline-{i}.js';path.write_text(script)
+     subprocess.run(['node','--check',str(path)],check=True,capture_output=True)
 if __name__=='__main__':unittest.main()
